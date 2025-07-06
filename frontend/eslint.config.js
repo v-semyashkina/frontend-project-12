@@ -9,6 +9,21 @@ export default defineConfig([
     plugins: { js },
     extends: ['js/recommended'],
   },
-  { files: ['**/*.{js,mjs,cjs,jsx}'], languageOptions: { globals: globals.browser } },
+  {
+    files: ['**/*.{js,mjs,cjs,jsx}'],
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    },
+    languageOptions: { globals: globals.browser },
+  },
   pluginReact.configs.flat.recommended,
+  {
+    files: ['**/*.{js,mjs,cjs,jsx}'],
+    rules: {
+      'react/react-in-jsx-scope': 'off',
+      'react/jsx-uses-react': 'off',
+    },
+  },
 ]);
