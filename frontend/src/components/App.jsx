@@ -1,46 +1,50 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  Navigate,
-  useLocation,
-} from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { PageOne } from './Pages.jsx';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import ChatPage from './ChatPage.jsx';
 import LoginPage from './LoginPage.jsx';
 import Navbar from './Navbar.jsx';
 import PageNotFound from './PageNotFound.jsx';
-
-//provider
+import { logIn, setInitialized } from '../slices/authSlice.js';
 
 const PrivateRoute = ({ children }) => {
   const loggedIn = useSelector((state) => state.auth.loggedIn);
-  // const location = useLocation();
-
-  // return loggedIn ? children : <Navigate to="/login" state={{ from: location }} />;
   return loggedIn ? children : <Navigate to="/login" />;
 };
 
 const App = () => {
+  const dispatch = useDispatch();
+  const initialized = useSelector((state) => state.auth.initialized);
+  useEffect(() => {
+    const userId = JSON.parse(localStorage.getItem('userId'));
+
+    if (userId && userId.token) {
+      dispatch(logIn(userId));
+    } else {
+      dispatch(setInitialized());
+    }
+  }, [dispatch]);
+
   return (
-    <Router>
-      <div className="d-flex flex-column h-100">
-        <Navbar />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <PrivateRoute>
-                <PageOne />
-              </PrivateRoute>
-            }
-          />
-          <Route path="login" element={<LoginPage />} />
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </div>
-    </Router>
+    initialized && (
+      <Router>
+        <div className="d-flex flex-column h-100">
+          <Navbar />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <PrivateRoute>
+                  <ChatPage />
+                </PrivateRoute>
+              }
+            />
+            <Route path="login" element={<LoginPage />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </div>
+      </Router>
+    )
   );
 };
 

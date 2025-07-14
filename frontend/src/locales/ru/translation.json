@@ -1,0 +1,20 @@
+{
+  "title": "Hexlet Chat",
+  "channelsTitle": "Каналы",
+  "logoutBtn": "Выйти",
+  "messages_one": "сообщение",
+  "messages_few": "сообщения",
+  "messages_many": "сообщений",
+  "messages_other": "сообщение",
+  "messagePlaceholder": "Введите сообщение...",
+  "messageBtnText": "Отправить",
+  "loginPage": {
+    "title": "Войти",
+    "usernamePlaceholder": "Ваш ник",
+    "passwordPlaceholder": "Пароль",
+    "error": "Неверные имя пользователя или пароль",
+    "loginBtn": "Войти",
+    "noAcc": "Нет аккаунта?",
+    "signupLink": "Регистрация"
+  }
+}

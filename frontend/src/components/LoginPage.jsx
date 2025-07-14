@@ -2,8 +2,9 @@ import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { Button, Form } from 'react-bootstrap';
 import { useEffect, useRef, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { logIn } from '../slices/authSlice.js';
 import axios from 'axios';
 import routes from '../routes.js';
@@ -13,11 +14,11 @@ const LoginPage = () => {
   const dispatch = useDispatch();
   const [authFailed, setAuthFailed] = useState(false);
   const inputRef = useRef();
-  const location = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
     inputRef.current.focus();
   }, []);
+  const { t } = useTranslation();
 
   const formik = useFormik({
     initialValues: { username: '', password: '' },
@@ -26,8 +27,7 @@ const LoginPage = () => {
       try {
         const response = await axios.post(routes.loginPath(), values);
         localStorage.setItem('userId', JSON.stringify(response.data));
-        dispatch(logIn(JSON.stringify(response.data)));
-        // const { from } = location.state;
+        dispatch(logIn(response.data));
         navigate('/');
       } catch (e) {
         formik.setSubmitting(false);
@@ -51,7 +51,7 @@ const LoginPage = () => {
                 <img src={avatar} className="rounded-circle" alt="Войти"></img>
               </div>
               <Form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-md-0">
-                <h1 className="text-center mb-4">Войти</h1>
+                <h1 className="text-center mb-4">{t('loginPage.title')}</h1>
                 <fieldset>
                   <Form.Group className="form-floating mb-3">
                     <Form.Control
@@ -60,13 +60,13 @@ const LoginPage = () => {
                       name="username"
                       autoComplete="username"
                       required
-                      placeholder="Ваш ник"
+                      placeholder={t('loginPage.usernamePlaceholder')}
                       id="uresname"
                       className="form-control"
                       isInvalid={authFailed}
                       ref={inputRef}
                     ></Form.Control>
-                    <Form.Label htmlFor="username">Ваш ник</Form.Label>
+                    <Form.Label htmlFor="username">{t('loginPage.usernamePlaceholder')}</Form.Label>
                   </Form.Group>
                   <Form.Group className="form-floating mb-4">
                     <Form.Control
@@ -75,28 +75,29 @@ const LoginPage = () => {
                       name="password"
                       autoComplete="current-password"
                       required
-                      placeholder="Пароль"
+                      placeholder={t('loginPage.passwordPlaceholder')}
                       type="password"
                       id="password"
                       className="form-control"
                       isInvalid={authFailed}
                     ></Form.Control>
                     <Form.Label className="form-label" htmlFor="password">
-                      Пароль
+                      {t('loginPage.passwordPlaceholder')}
                     </Form.Label>
                     <Form.Control.Feedback className="invalid-tooltip">
-                      Неверные имя пользователя или пароль
+                      {t('loginPage.error')}
                     </Form.Control.Feedback>
                   </Form.Group>
                   <Button type="submit" className="w-100 mb-3" variant="outline-primary">
-                    Войти
+                    {t('loginPage.loginBtn')}
                   </Button>
                 </fieldset>
               </Form>
             </div>
             <div className="card-footer p-4">
               <div className="text-center">
-                <span>Нет аккаунта?</span> <Link to="/signup">Регистрация</Link>
+                <span>{t('loginPage.noAcc')}</span>{' '}
+                <Link to="/signup">{t('loginPage.signupLink')}</Link>
               </div>
             </div>
           </div>
