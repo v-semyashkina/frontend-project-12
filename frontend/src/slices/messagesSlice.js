@@ -14,8 +14,13 @@ const messagesSlice = createSlice({
       state.entities = entities;
       state.ids = ids;
     },
+    addMessage(state, { payload }) {
+      const id = payload.id;
+      state.entities = { ...state.entities, [id]: payload };
+      state.ids = [...state.ids, id];
+    },
   },
 });
 
-export const { setMessages } = messagesSlice.actions;
+export const { setMessages, addMessage } = messagesSlice.actions;
 export default messagesSlice.reducer;

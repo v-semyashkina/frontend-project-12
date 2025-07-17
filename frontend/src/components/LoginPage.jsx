@@ -27,7 +27,7 @@ const LoginPage = () => {
       try {
         const response = await axios.post(routes.loginPath(), values);
         localStorage.setItem('userId', JSON.stringify(response.data));
-        dispatch(logIn(response.data));
+        dispatch(logIn(response.data.username));
         navigate('/');
       } catch (e) {
         formik.setSubmitting(false);

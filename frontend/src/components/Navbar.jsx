@@ -9,6 +9,11 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
+  const handleClick = () => {
+    localStorage.removeItem('userId');
+    dispatch(logOut());
+  };
+
   return (
     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
       <div className="container">
@@ -16,7 +21,7 @@ const Navbar = () => {
           {t('title')}
         </Link>
         {loggedIn ? (
-          <Button variant="primary" onClick={() => dispatch(logOut())}>
+          <Button variant="primary" onClick={() => handleClick()}>
             {t('logoutBtn')}
           </Button>
         ) : null}

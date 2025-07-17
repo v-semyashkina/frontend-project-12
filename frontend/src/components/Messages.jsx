@@ -1,35 +1,53 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { Button, Form } from 'react-bootstrap';
+import axios from 'axios';
+import { socket } from '../socket.js';
 import Message from './Message.jsx';
+import { addMessage } from '../slices/messagesSlice.js';
+import routes from '../routes.js';
+import getAuthHeader from '../utilities/getAuthHeader.js';
 
 const Messages = () => {
+  const dispatch = useDispatch();
   const { t } = useTranslation();
   const inputRef = useRef();
+  const formRef = useRef();
   useEffect(() => {
     inputRef.current.focus();
   }, []);
 
+  useEffect(() => {
+    socket.on('newMessage', (payload) => {
+      dispatch(addMessage(payload));
+    });
+  }, []);
+
   const formik = useFormik({
     initialValues: { body: '' },
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: ({ body }, { resetForm }) => {
+      const newMessage = { body, channelId: activeChannelId, username };
+      const headers = getAuthHeader();
+      axios
+        .post(routes.addMessagePath(), newMessage, { headers })
+        .then(() => {
+          resetForm({ body: '' });
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     },
   });
 
-  const activeChannelId = useSelector((state) => {
-    return state.channels.activeId;
-  });
-  const channelsEntities = useSelector((state) => {
-    return state.channels.entities;
-  });
+  const username = useSelector((state) => state.auth.username);
+
+  const activeChannelId = useSelector((state) => state.channels.activeId);
+  const channelsEntities = useSelector((state) => state.channels.entities);
   const activeChannelName = channelsEntities[activeChannelId]?.name || '';
 
-  const messagesEntities = useSelector((state) => {
-    return state.messages.entities;
-  });
+  const messagesEntities = useSelector((state) => state.messages.entities);
   const messages = Object.values(messagesEntities).filter(
     (message) => message.channelId === activeChannelId,
   );
@@ -52,7 +70,12 @@ const Messages = () => {
           ))}
         </div>
         <div className="mt-auto px-5 py-3">
-          <Form onSubmit={formik.handleSubmit} noValidate="" className="py-1 border rounded-2">
+          <Form
+            onSubmit={formik.handleSubmit}
+            noValidate=""
+            className="py-1 border rounded-2"
+            ref={formRef}
+          >
             <Form.Group className="input-group has-validation">
               <Form.Control
                 onChange={formik.handleChange}

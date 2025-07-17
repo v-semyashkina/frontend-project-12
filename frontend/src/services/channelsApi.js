@@ -5,7 +5,10 @@ export const channelsApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: '/api/v1/channels' }),
   endpoints: (builder) => ({
     getChannels: builder.query({
-      query: () => '',
+      query: (header) => ({
+        url: '',
+        headers: header,
+      }),
     }),
   }),
 });

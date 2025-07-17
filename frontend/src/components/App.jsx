@@ -19,7 +19,7 @@ const App = () => {
     const userId = JSON.parse(localStorage.getItem('userId'));
 
     if (userId && userId.token) {
-      dispatch(logIn(userId));
+      dispatch(logIn(userId.username));
     } else {
       dispatch(setInitialized());
     }
