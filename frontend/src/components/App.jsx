@@ -5,6 +5,7 @@ import ChatPage from './ChatPage.jsx';
 import LoginPage from './LoginPage.jsx';
 import Navbar from './Navbar.jsx';
 import PageNotFound from './PageNotFound.jsx';
+import getModal from './modals/index.js';
 import { logIn, setInitialized } from '../slices/authSlice.js';
 
 const PrivateRoute = ({ children }) => {
@@ -12,9 +13,19 @@ const PrivateRoute = ({ children }) => {
   return loggedIn ? children : <Navigate to="/login" />;
 };
 
+const renderModal = (modalType) => {
+  if (!modalType) {
+    return null;
+  }
+
+  const Component = getModal(modalType);
+  return <Component />;
+};
+
 const App = () => {
   const dispatch = useDispatch();
   const initialized = useSelector((state) => state.auth.initialized);
+  const modalType = useSelector((state) => state.modal.type);
   useEffect(() => {
     const userId = JSON.parse(localStorage.getItem('userId'));
 
@@ -28,21 +39,26 @@ const App = () => {
   return (
     initialized && (
       <Router>
-        <div className="d-flex flex-column h-100">
-          <Navbar />
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <PrivateRoute>
-                  <ChatPage />
-                </PrivateRoute>
-              }
-            />
-            <Route path="login" element={<LoginPage />} />
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
+        <div className="h-100">
+          <div className="h-100" id="chat">
+            <div className="d-flex flex-column h-100">
+              <Navbar />
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    <PrivateRoute>
+                      <ChatPage />
+                    </PrivateRoute>
+                  }
+                />
+                <Route path="login" element={<LoginPage />} />
+                <Route path="*" element={<PageNotFound />} />
+              </Routes>
+            </div>
+          </div>
         </div>
+        {renderModal(modalType)}
       </Router>
     )
   );

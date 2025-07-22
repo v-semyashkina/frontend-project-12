@@ -1,19 +1,51 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
+import { socket } from '../socket.js';
+import store from '../slices/index.js';
 import Channel from './Channel.jsx';
+import { openModal } from '../slices/modalsSlice.js';
+import {
+  addChannel,
+  setActiveChannel,
+  deleteChannel,
+  renameChannel,
+  channelsSelectors,
+} from '../slices/channelsSlice.js';
 
 const Channels = () => {
+  const dispatch = useDispatch();
   const { t } = useTranslation();
-  const channelsEntities = useSelector((state) => {
-    return state.channels.entities;
-  });
-  const channels = Object.values(channelsEntities);
+
+  const channels = useSelector(channelsSelectors.selectAll);
+
+  useEffect(() => {
+    socket.on('newChannel', (payload) => {
+      dispatch(addChannel(payload));
+      dispatch(setActiveChannel(payload));
+    });
+    socket.on('removeChannel', (payload) => {
+      dispatch(deleteChannel(payload.id));
+      const state = store.getState();
+      const updatedChannels = channelsSelectors.selectAll(state);
+      dispatch(setActiveChannel(updatedChannels[0]));
+    });
+    socket.on('renameChannel', (payload) => {
+      const { id, name } = payload;
+      dispatch(renameChannel({ id, changes: { name } }));
+      dispatch(setActiveChannel(payload));
+    });
+  }, []);
 
   return (
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
         <b>{t('channelsTitle')}</b>
-        <button type="button" className="p-0 text-primary btn btn-group-vertical">
+        <button
+          type="button"
+          className="p-0 text-primary btn btn-group-vertical"
+          onClick={() => dispatch(openModal({ type: 'addingChannel' }))}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"

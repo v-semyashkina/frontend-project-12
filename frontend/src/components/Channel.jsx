@@ -1,28 +1,74 @@
 import { useSelector, useDispatch } from 'react-redux';
+import { Button, Dropdown, ButtonGroup } from 'react-bootstrap';
 import cn from 'classnames';
-import { setActiveChannel } from '../slices/channelsSlice.js';
+import { useTranslation } from 'react-i18next';
+import { setActiveChannel, selectActiveChannel } from '../slices/channelsSlice.js';
+import { openModal } from '../slices/modalsSlice.js';
 
 const Channel = ({ channel }) => {
+  const { id, name, removable } = channel;
+
   const dispatch = useDispatch();
-  const activeChannelId = useSelector((state) => {
-    return state.channels.activeId;
+  const { t } = useTranslation();
+
+  const activeChannelId = useSelector(selectActiveChannel).id;
+  const channelUnremovableClass = cn('w-100 rounded-0 text-start btn', {
+    'btn-secondary': id === activeChannelId,
   });
-  const channelClass = cn('w-100 rounded-0 text-start btn', {
-    'btn-secondary': channel.id === activeChannelId,
+  const channelRemovableClass = cn('w-100 rounded-0 text-start text-truncate btn', {
+    'btn-secondary': id === activeChannelId,
   });
 
-  return (
-    <li className="nav-item w-100">
+  const renderUnremovable = () => {
+    return (
       <button
         type="button"
-        className={channelClass}
-        onClick={() => dispatch(setActiveChannel(channel.id))}
+        className={channelUnremovableClass}
+        onClick={() => dispatch(setActiveChannel(channel))}
       >
         <span className="me-1">#</span>
-        {channel.name}
+        {name}
       </button>
-    </li>
-  );
+    );
+  };
+
+  const renderRemovable = () => {
+    return (
+      <Dropdown as={ButtonGroup} className="d-flex">
+        <Button
+          variant="none"
+          className={channelRemovableClass}
+          onClick={() => dispatch(setActiveChannel(id))}
+        >
+          <span className="me-1">#</span>
+          {name}
+        </Button>
+
+        <Dropdown.Toggle
+          variant={id === activeChannelId ? 'secondary' : 'none'}
+          split
+          id="dropdown-split-basic"
+        />
+
+        <Dropdown.Menu>
+          <Dropdown.Item
+            // href="#/action-1"
+            onClick={() => dispatch(openModal({ type: 'deletingChannel', item: channel }))}
+          >
+            {t('manageChannelsBtns.delete')}
+          </Dropdown.Item>
+          <Dropdown.Item
+            // href="#/action-2"
+            onClick={() => dispatch(openModal({ type: 'renamingChannel', item: channel }))}
+          >
+            {t('manageChannelsBtns.rename')}
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    );
+  };
+
+  return <li className="nav-item w-100">{removable ? renderRemovable() : renderUnremovable()}</li>;
 };
 
 export default Channel;

@@ -8,7 +8,7 @@ import './i18next';
 // Import all of Bootstrap's JS
 // import * as bootstrap from 'bootstrap';
 
-const mountNode = document.getElementById('chat');
+const mountNode = document.getElementById('app');
 const root = createRoot(mountNode);
 
 root.render(

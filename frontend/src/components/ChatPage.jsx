@@ -1,41 +1,26 @@
-import axios from 'axios';
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import routes from '../routes.js';
-import getNormalized from '../utilities/getNormalized.js';
-import { setChannels } from '../slices/channelsSlice.js';
+import { useDispatch } from 'react-redux';
+import { setChannels, setActiveChannel } from '../slices/channelsSlice.js';
 import { setMessages } from '../slices/messagesSlice.js';
+import { getChannels } from '../slices/channelsApi.js';
+import { getMessages } from '../slices/messagesApi.js';
 import Channels from './Channels.jsx';
 import Messages from './Messages.jsx';
-import getAuthHeader from '../utilities/getAuthHeader.js';
 
 const ChatPage = () => {
   const dispatch = useDispatch();
 
+  const { data: channels } = getChannels();
+  const { data: messages } = getMessages();
   useEffect(() => {
-    const fetchContent = async () => {
-      const headers = getAuthHeader();
-
-      axios
-        .all([
-          axios.get(routes.channelsPath(), { headers }),
-          axios.get(routes.messagesPath(), { headers }),
-        ])
-        .then(
-          axios.spread((responseChannels, responseMessages) => {
-            const channelsData = getNormalized(responseChannels.data);
-            const messagesData = getNormalized(responseMessages.data);
-            dispatch(setChannels(channelsData));
-            dispatch(setMessages(messagesData));
-          }),
-        )
-        .catch((error) => {
-          console.log(error);
-        });
-    };
-
-    fetchContent();
-  }, []);
+    if (channels) {
+      dispatch(setChannels(channels));
+      dispatch(setActiveChannel(channels[0]));
+    }
+    if (messages) {
+      dispatch(setMessages(messages));
+    }
+  }, [channels]);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">

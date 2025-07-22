@@ -3,21 +3,18 @@ import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { Button, Form } from 'react-bootstrap';
-import axios from 'axios';
 import { socket } from '../socket.js';
 import Message from './Message.jsx';
-import { addMessage } from '../slices/messagesSlice.js';
-import routes from '../routes.js';
-import getAuthHeader from '../utilities/getAuthHeader.js';
+import { addMessage, messagesSelectors } from '../slices/messagesSlice.js';
+import { sendMessage } from '../slices/messagesApi.js';
+import { selectActiveChannel } from '../slices/channelsSlice.js';
 
 const Messages = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const inputRef = useRef();
   const formRef = useRef();
-  useEffect(() => {
-    inputRef.current.focus();
-  }, []);
+  const [sendNewMessage] = sendMessage();
 
   useEffect(() => {
     socket.on('newMessage', (payload) => {
@@ -27,28 +24,27 @@ const Messages = () => {
 
   const formik = useFormik({
     initialValues: { body: '' },
-    onSubmit: ({ body }, { resetForm }) => {
+    onSubmit: async ({ body }, { resetForm }) => {
       const newMessage = { body, channelId: activeChannelId, username };
-      const headers = getAuthHeader();
-      axios
-        .post(routes.addMessagePath(), newMessage, { headers })
-        .then(() => {
-          resetForm({ body: '' });
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+      try {
+        await sendNewMessage(newMessage).unwrap();
+        resetForm({ body: '' });
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
 
   const username = useSelector((state) => state.auth.username);
+  const activeChannel = useSelector(selectActiveChannel);
+  const activeChannelId = activeChannel?.id || null;
+  const activeChannelName = activeChannel?.name || '';
 
-  const activeChannelId = useSelector((state) => state.channels.activeId);
-  const channelsEntities = useSelector((state) => state.channels.entities);
-  const activeChannelName = channelsEntities[activeChannelId]?.name || '';
+  useEffect(() => {
+    inputRef.current.focus();
+  }, [activeChannelId]);
 
-  const messagesEntities = useSelector((state) => state.messages.entities);
-  const messages = Object.values(messagesEntities).filter(
+  const messages = useSelector(messagesSelectors.selectAll).filter(
     (message) => message.channelId === activeChannelId,
   );
   const messagesCount = messages.length;

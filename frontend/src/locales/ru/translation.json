@@ -8,6 +8,31 @@
   "messages_other": "сообщение",
   "messagePlaceholder": "Введите сообщение...",
   "messageBtnText": "Отправить",
+  "modals": {
+    "addTitle": "Добавить канал",
+    "addLabel": "Имя канала",
+    "addBtns": {
+      "cancel": "Отменить",
+      "submit": "Отправить"
+    },
+    "addErrors": {
+      "required": "Обязательное поле",
+      "min": "Минимум 3 буквы",
+      "max": "Максимум 20 букв",
+      "repeats": "Должно быть уникальным"
+    },
+    "deleteTitle": "Удалить канал",
+    "deleteQuestion": "Уверены?",
+    "deleteBtns": {
+      "cancel": "Отменить",
+      "delete": "Удалить"
+    },
+    "renameTitle": "Переименовать канал",
+    "renameBtns": {
+      "cancel": "Отменить",
+      "submit": "Отправить"
+    }
+  },
   "loginPage": {
     "title": "Войти",
     "usernamePlaceholder": "Ваш ник",
@@ -16,5 +41,9 @@
     "loginBtn": "Войти",
     "noAcc": "Нет аккаунта?",
     "signupLink": "Регистрация"
+  },
+  "manageChannelsBtns": {
+    "delete": "Удалить",
+    "rename": "Переименовать"
   }
 }
