@@ -35,12 +35,26 @@
   },
   "loginPage": {
     "title": "Войти",
+    "imgAlt": "Войти",
     "usernamePlaceholder": "Ваш ник",
     "passwordPlaceholder": "Пароль",
     "error": "Неверные имя пользователя или пароль",
     "loginBtn": "Войти",
     "noAcc": "Нет аккаунта?",
     "signupLink": "Регистрация"
+  },
+  "signupPage": {
+    "title": "Регистрация",
+    "imgAlt": "Регистрация",
+    "usernamePlaceholder": "От 3 до 20 символов",
+    "usernameLabel": "Имя пользователя",
+    "passwordPlaceholder": "Не менее 6 символов",
+    "passwordLabel": "Пароль",
+    "confirmPasswordPlaceholder": "Пароли должны совпадать",
+    "confirmPasswordLabel": "Подтвердите пароль",
+    "required": "Обязательное поле",
+    "signupBtn": "Зарегистрироваться",
+    "signupError": "Такой пользователь уже существует"
   },
   "manageChannelsBtns": {
     "delete": "Удалить",

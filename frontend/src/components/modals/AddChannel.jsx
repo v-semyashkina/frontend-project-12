@@ -61,21 +61,16 @@ const AddChannel = (props) => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.name}
-                className={`mb-2 ${
-                  formik.submitCount > 0 && formik.errors.name ? 'is-invalid' : ''
-                }`}
+                className="mb-2"
                 data-testid="input-body"
                 name="name"
                 id="name"
+                isInvalid={formik.submitCount > 0 && formik.errors.name}
               />
               <Form.Label htmlFor="name" className="visually-hidden">
                 {t('modals.addLabel')}
               </Form.Label>
-              {formik.submitCount > 0 && formik.errors.name && (
-                <Form.Control.Feedback className="invalid-feedback">
-                  {formik.errors.name}
-                </Form.Control.Feedback>
-              )}
+              <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback>
               <div className="d-flex justify-content-end">
                 <Button
                   type="button"

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import ChatPage from './ChatPage.jsx';
 import LoginPage from './LoginPage.jsx';
+import SignupPage from './SignupPage.jsx';
 import Navbar from './Navbar.jsx';
 import PageNotFound from './PageNotFound.jsx';
 import getModal from './modals/index.js';
@@ -53,6 +54,7 @@ const App = () => {
                   }
                 />
                 <Route path="login" element={<LoginPage />} />
+                <Route path="signup" element={<SignupPage />} />
                 <Route path="*" element={<PageNotFound />} />
               </Routes>
             </div>

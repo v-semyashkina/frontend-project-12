@@ -6,13 +6,13 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { logIn } from '../slices/authSlice.js';
-import axios from 'axios';
-import routes from '../routes.js';
+import { useLoginMutation } from '../slices/usersApi.js';
 import avatar from '../assets/avatar-DIE1AEpS.jpg';
 
 const LoginPage = () => {
   const dispatch = useDispatch();
   const [authFailed, setAuthFailed] = useState(false);
+  const [loginUser] = useLoginMutation();
   const inputRef = useRef();
   const navigate = useNavigate();
   useEffect(() => {
@@ -25,18 +25,16 @@ const LoginPage = () => {
     onSubmit: async (values) => {
       setAuthFailed(false);
       try {
-        const response = await axios.post(routes.loginPath(), values);
-        localStorage.setItem('userId', JSON.stringify(response.data));
-        dispatch(logIn(response.data.username));
+        const response = await loginUser(values).unwrap();
+        localStorage.setItem('userId', JSON.stringify(response));
+        dispatch(logIn(response.username));
         navigate('/');
       } catch (e) {
         formik.setSubmitting(false);
-        if (e.isAxiosError && e.response.status === 401) {
+        if (e.status === 401) {
           setAuthFailed(true);
           inputRef.current.select();
-          return;
         }
-        throw e;
       }
     },
   });
@@ -48,7 +46,7 @@ const LoginPage = () => {
           <div className="card shadow-sm">
             <div className="card-body row p-5">
               <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                <img src={avatar} className="rounded-circle" alt="Войти"></img>
+                <img src={avatar} className="rounded-circle" alt={t('loginPage.imgAlt')}></img>
               </div>
               <Form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-md-0">
                 <h1 className="text-center mb-4">{t('loginPage.title')}</h1>
@@ -84,7 +82,7 @@ const LoginPage = () => {
                     <Form.Label className="form-label" htmlFor="password">
                       {t('loginPage.passwordPlaceholder')}
                     </Form.Label>
-                    <Form.Control.Feedback className="invalid-tooltip">
+                    <Form.Control.Feedback type="invalid">
                       {t('loginPage.error')}
                     </Form.Control.Feedback>
                   </Form.Group>
