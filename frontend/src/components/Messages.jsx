@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { Button, Form } from 'react-bootstrap';
 import { socket } from '../socket.js';
+import { toast } from 'react-toastify';
+import leoProfanity from '../utilities/leoProfanity.js';
 import Message from './Message.jsx';
 import { addMessage, messagesSelectors } from '../slices/messagesSlice.js';
 import { sendMessage } from '../slices/messagesApi.js';
@@ -25,12 +27,16 @@ const Messages = () => {
   const formik = useFormik({
     initialValues: { body: '' },
     onSubmit: async ({ body }, { resetForm }) => {
-      const newMessage = { body, channelId: activeChannelId, username };
+      const cleanBody = leoProfanity.clean(body);
+      const newMessage = { body: cleanBody, channelId: activeChannelId, username };
       try {
         await sendNewMessage(newMessage).unwrap();
         resetForm({ body: '' });
       } catch (error) {
         console.log(error);
+        if (error.status === 'FETCH_ERROR') {
+          toast.error(t('networkError'));
+        }
       }
     },
   });

@@ -1,5 +1,6 @@
 {
   "title": "Hexlet Chat",
+  "networkError": "Ошибка соединения",
   "channelsTitle": "Каналы",
   "logoutBtn": "Выйти",
   "messages_one": "сообщение",
@@ -21,17 +22,20 @@
       "max": "Максимум 20 букв",
       "repeats": "Должно быть уникальным"
     },
+    "addSuccessMessage": "Канал создан",
     "deleteTitle": "Удалить канал",
     "deleteQuestion": "Уверены?",
     "deleteBtns": {
       "cancel": "Отменить",
       "delete": "Удалить"
     },
+    "deleteSuccessMessage": "Канал удалён",
     "renameTitle": "Переименовать канал",
     "renameBtns": {
       "cancel": "Отменить",
       "submit": "Отправить"
-    }
+    },
+    "renameSuccessMessage": "Канал переименован"
   },
   "loginPage": {
     "title": "Войти",

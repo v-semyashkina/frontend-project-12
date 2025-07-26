@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 import ChatPage from './ChatPage.jsx';
 import LoginPage from './LoginPage.jsx';
 import SignupPage from './SignupPage.jsx';
@@ -58,6 +59,7 @@ const App = () => {
                 <Route path="*" element={<PageNotFound />} />
               </Routes>
             </div>
+            <ToastContainer />
           </div>
         </div>
         {renderModal(modalType)}

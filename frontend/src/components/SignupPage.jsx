@@ -1,10 +1,11 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Button, Form, Alert } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { logIn } from '../slices/authSlice.js';
 import { useSignupMutation } from '../slices/usersApi.js';
 import avatar from '../assets/avatar_1-D7Cot-zE.jpg';
@@ -46,6 +47,9 @@ const SignupPage = () => {
         formik.setSubmitting(false);
         if (error.status === 409) {
           setSignupFailed(true);
+        }
+        if (error.status === 'FETCH_ERROR') {
+          toast.error(t('networkError'));
         }
       }
     },

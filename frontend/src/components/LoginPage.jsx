@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { logIn } from '../slices/authSlice.js';
 import { useLoginMutation } from '../slices/usersApi.js';
 import avatar from '../assets/avatar-DIE1AEpS.jpg';
@@ -29,11 +30,14 @@ const LoginPage = () => {
         localStorage.setItem('userId', JSON.stringify(response));
         dispatch(logIn(response.username));
         navigate('/');
-      } catch (e) {
+      } catch (error) {
         formik.setSubmitting(false);
-        if (e.status === 401) {
+        if (error.status === 401) {
           setAuthFailed(true);
           inputRef.current.select();
+        }
+        if (error.status === 'FETCH_ERROR') {
+          toast.error(t('networkError'));
         }
       }
     },

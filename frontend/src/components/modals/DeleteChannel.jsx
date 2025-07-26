@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import { removeChannel } from '../../slices/channelsApi.js';
 import { deleteMessages } from '../../slices/messagesSlice.js';
 import { closeModal } from '../../slices/modalsSlice.js';
@@ -18,8 +19,12 @@ const DeleteChannel = (props) => {
       await deleteChannel(id).unwrap();
       dispatch(deleteMessages(id));
       dispatch(closeModal());
+      toast.success(t('modals.deleteSuccessMessage'));
     } catch (error) {
       console.log(error);
+      if (error.status === 'FETCH_ERROR') {
+        toast.error(t('networkError'));
+      }
     }
   };
 

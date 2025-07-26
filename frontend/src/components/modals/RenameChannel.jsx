@@ -4,6 +4,8 @@ import { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import { Form, Modal, Button } from 'react-bootstrap';
 import * as Yup from 'yup';
+import { toast } from 'react-toastify';
+import leoProfanity from '../../utilities/leoProfanity.js';
 import { renameChannel } from '../../slices/channelsApi.js';
 import { channelsSelectors } from '../../slices/channelsSlice.js';
 import { closeModal } from '../../slices/modalsSlice.js';
@@ -32,11 +34,16 @@ const RenameChannel = (props) => {
     }),
     onSubmit: async ({ name }) => {
       const id = modalItem.id;
+      const cleanName = leoProfanity.clean(name);
       try {
-        await sendNewName({ id, name }).unwrap();
+        await sendNewName({ id, name: cleanName }).unwrap();
         dispatch(closeModal());
+        toast.success(t('modals.renameSuccessMessage'));
       } catch (error) {
         console.error(error);
+        if (error.status === 'FETCH_ERROR') {
+          toast.error(t('networkError'));
+        }
       }
     },
   });

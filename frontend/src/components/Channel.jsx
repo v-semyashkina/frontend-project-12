@@ -38,7 +38,7 @@ const Channel = ({ channel }) => {
         <Button
           variant="none"
           className={channelRemovableClass}
-          onClick={() => dispatch(setActiveChannel(id))}
+          onClick={() => dispatch(setActiveChannel(channel))}
         >
           <span className="me-1">#</span>
           {name}
@@ -52,13 +52,11 @@ const Channel = ({ channel }) => {
 
         <Dropdown.Menu>
           <Dropdown.Item
-            // href="#/action-1"
             onClick={() => dispatch(openModal({ type: 'deletingChannel', item: channel }))}
           >
             {t('manageChannelsBtns.delete')}
           </Dropdown.Item>
           <Dropdown.Item
-            // href="#/action-2"
             onClick={() => dispatch(openModal({ type: 'renamingChannel', item: channel }))}
           >
             {t('manageChannelsBtns.rename')}
