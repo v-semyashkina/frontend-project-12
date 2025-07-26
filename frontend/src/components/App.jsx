@@ -1,7 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Provider, ErrorBoundary } from '@rollbar/react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import ChatPage from './ChatPage.jsx';
 import LoginPage from './LoginPage.jsx';
 import SignupPage from './SignupPage.jsx';
@@ -9,6 +10,11 @@ import Navbar from './Navbar.jsx';
 import PageNotFound from './PageNotFound.jsx';
 import getModal from './modals/index.js';
 import { logIn, setInitialized } from '../slices/authSlice.js';
+
+const rollbarConfig = {
+  accessToken: 'b247b6c89b464b52b9415ec96624e8a3',
+  environment: 'testenv',
+};
 
 const PrivateRoute = ({ children }) => {
   const loggedIn = useSelector((state) => state.auth.loggedIn);
@@ -40,30 +46,34 @@ const App = () => {
 
   return (
     initialized && (
-      <Router>
-        <div className="h-100">
-          <div className="h-100" id="chat">
-            <div className="d-flex flex-column h-100">
-              <Navbar />
-              <Routes>
-                <Route
-                  path="/"
-                  element={
-                    <PrivateRoute>
-                      <ChatPage />
-                    </PrivateRoute>
-                  }
-                />
-                <Route path="login" element={<LoginPage />} />
-                <Route path="signup" element={<SignupPage />} />
-                <Route path="*" element={<PageNotFound />} />
-              </Routes>
+      <Provider config={rollbarConfig}>
+        <ErrorBoundary>
+          <Router>
+            <div className="h-100">
+              <div className="h-100" id="chat">
+                <div className="d-flex flex-column h-100">
+                  <Navbar />
+                  <Routes>
+                    <Route
+                      path="/"
+                      element={
+                        <PrivateRoute>
+                          <ChatPage />
+                        </PrivateRoute>
+                      }
+                    />
+                    <Route path="login" element={<LoginPage />} />
+                    <Route path="signup" element={<SignupPage />} />
+                    <Route path="*" element={<PageNotFound />} />
+                  </Routes>
+                </div>
+                <ToastContainer />
+              </div>
             </div>
-            <ToastContainer />
-          </div>
-        </div>
-        {renderModal(modalType)}
-      </Router>
+            {renderModal(modalType)}
+          </Router>
+        </ErrorBoundary>
+      </Provider>
     )
   );
 };
