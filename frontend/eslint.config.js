@@ -16,7 +16,7 @@ export default defineConfig([
         version: 'detect',
       },
     },
-    languageOptions: { globals: globals.browser },
+    languageOptions: { globals: { ...globals.browser, ...globals.node } },
   },
   pluginReact.configs.flat.recommended,
   {
@@ -24,6 +24,7 @@ export default defineConfig([
     rules: {
       'react/react-in-jsx-scope': 'off',
       'react/jsx-uses-react': 'off',
+      'react/prop-types': 'off',
     },
   },
 ]);
