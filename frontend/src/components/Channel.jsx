@@ -48,8 +48,9 @@ const Channel = ({ channel }) => {
           variant={id === activeChannelId ? 'secondary' : 'none'}
           split
           id="dropdown-split-basic"
-        />
-
+        >
+          <span className="visually-hidden">Управление каналом</span>
+        </Dropdown.Toggle>
         <Dropdown.Menu>
           <Dropdown.Item
             onClick={() => dispatch(openModal({ type: 'deletingChannel', item: channel }))}

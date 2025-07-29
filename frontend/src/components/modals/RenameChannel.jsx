@@ -73,7 +73,7 @@ const RenameChannel = (props) => {
                 data-testid="input-body"
                 name="name"
                 id="name"
-                isInvalid={formik.submitCount > 0 && formik.errors.name}
+                isInvalid={formik.submitCount > 0 && formik.errors.name && !isLoading}
               />
               <Form.Label htmlFor="name" className="visually-hidden">
                 {t('modals.addLabel')}
