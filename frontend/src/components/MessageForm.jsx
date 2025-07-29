@@ -45,8 +45,11 @@ const MessageForm = () => {
   const activeChannelId = activeChannel?.id || null;
 
   useEffect(() => {
-    inputRef.current.focus();
-  }, [activeChannelId]);
+    const timer = setTimeout(() => {
+      inputRef.current?.focus();
+    }, 50);
+    return () => clearTimeout(timer);
+  }, [activeChannel]);
 
   return (
     <Form
