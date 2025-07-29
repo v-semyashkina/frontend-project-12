@@ -43,7 +43,7 @@ const Messages = () => {
           ))}
         </div>
         <div className="mt-auto px-5 py-3">
-          <MessageForm />
+          <MessageForm messages={messages} />
         </div>
       </div>
     </div>

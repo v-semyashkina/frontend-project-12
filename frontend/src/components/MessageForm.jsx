@@ -10,7 +10,7 @@ import { addMessage } from '../slices/messagesSlice.js';
 import { sendMessage } from '../slices/messagesApi.js';
 import { selectActiveChannel } from '../slices/channelsSlice.js';
 
-const MessageForm = () => {
+const MessageForm = ({ messages }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const inputRef = useRef();
@@ -45,11 +45,8 @@ const MessageForm = () => {
   const activeChannelId = activeChannel?.id || null;
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      inputRef.current?.focus();
-    }, 50);
-    return () => clearTimeout(timer);
-  }, [activeChannel]);
+    inputRef.current?.focus();
+  }, [messages]);
 
   return (
     <Form
