@@ -44,7 +44,7 @@ const SignupPage = () => {
         dispatch(logIn(response.username))
         navigate('/')
       }
- catch (error) {
+      catch (error) {
         formik.setSubmitting(false)
         if (error.status === 409) {
           setSignupFailed(true)
@@ -78,7 +78,8 @@ const SignupPage = () => {
                     id="username"
                     ref={inputRef}
                     isInvalid={(formik.submitCount > 0 && formik.errors.username) || signupFailed}
-                  ></Form.Control>
+                  >
+                  </Form.Control>
                   <Form.Label htmlFor="username">{t('signupPage.usernameLabel')}</Form.Label>
                   <Form.Control.Feedback type="invalid">
                     {formik.errors.username}
@@ -96,7 +97,8 @@ const SignupPage = () => {
                     type="password"
                     id="password"
                     isInvalid={(formik.submitCount > 0 && formik.errors.password) || signupFailed}
-                  ></Form.Control>
+                  >
+                  </Form.Control>
                   <Form.Label htmlFor="password">{t('signupPage.passwordLabel')}</Form.Label>
                   <Form.Control.Feedback type="invalid">
                     {formik.errors.password}
@@ -115,7 +117,8 @@ const SignupPage = () => {
                     isInvalid={
                       (formik.submitCount > 0 && formik.errors.confirmPassword) || signupFailed
                     }
-                  ></Form.Control>
+                  >
+                  </Form.Control>
                   <Form.Label htmlFor="confirmPassword">
                     {t('signupPage.confirmPasswordLabel')}
                   </Form.Label>

@@ -41,7 +41,7 @@ const RenameChannel = (props) => {
         dispatch(setActiveChannel(data))
         toast.success(t('modals.renameSuccessMessage'))
       }
- catch (error) {
+      catch (error) {
         console.error(error)
         if (error.status === 'FETCH_ERROR') {
           toast.error(t('networkError'))

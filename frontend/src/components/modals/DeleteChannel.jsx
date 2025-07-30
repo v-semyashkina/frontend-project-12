@@ -21,7 +21,7 @@ const DeleteChannel = (props) => {
       dispatch(closeModal())
       toast.success(t('modals.deleteSuccessMessage'))
     }
- catch (error) {
+    catch (error) {
       console.log(error)
       if (error.status === 'FETCH_ERROR') {
         toast.error(t('networkError'))

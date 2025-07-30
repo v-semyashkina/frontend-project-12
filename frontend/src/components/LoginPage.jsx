@@ -31,7 +31,7 @@ const LoginPage = () => {
         dispatch(logIn(response.username))
         navigate('/')
       }
- catch (error) {
+      catch (error) {
         formik.setSubmitting(false)
         if (error.status === 401) {
           setAuthFailed(true)
@@ -68,7 +68,8 @@ const LoginPage = () => {
                       className="form-control"
                       isInvalid={authFailed}
                       ref={inputRef}
-                    ></Form.Control>
+                    >
+                    </Form.Control>
                     <Form.Label htmlFor="username">{t('loginPage.usernamePlaceholder')}</Form.Label>
                   </Form.Group>
                   <Form.Group className="form-floating mb-4">
@@ -83,7 +84,8 @@ const LoginPage = () => {
                       id="password"
                       className="form-control"
                       isInvalid={authFailed}
-                    ></Form.Control>
+                    >
+                    </Form.Control>
                     <Form.Label className="form-label" htmlFor="password">
                       {t('loginPage.passwordPlaceholder')}
                     </Form.Label>
@@ -99,7 +101,8 @@ const LoginPage = () => {
             </div>
             <div className="card-footer p-4">
               <div className="text-center">
-                <span>{t('loginPage.noAcc')}</span>{' '}
+                <span>{t('loginPage.noAcc')}</span>
+                {' '}
                 <Link to="/signup">{t('loginPage.signupLink')}</Link>
               </div>
             </div>

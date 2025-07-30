@@ -40,7 +40,7 @@ const App = () => {
     if (userId && userId.token) {
       dispatch(logIn(userId.username))
     }
- else {
+    else {
       dispatch(setInitialized())
     }
   }, [dispatch])

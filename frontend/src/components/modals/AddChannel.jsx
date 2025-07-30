@@ -40,7 +40,7 @@ const AddChannel = (props) => {
         dispatch(setActiveChannel(data))
         toast.success(t('modals.addSuccessMessage'))
       }
- catch (error) {
+      catch (error) {
         console.error(error)
         if (error.status === 'FETCH_ERROR') {
           toast.error(t('networkError'))

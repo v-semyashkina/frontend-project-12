@@ -29,6 +29,10 @@ export default defineConfig([
       '@stylistic/semi': ['error', 'never'],
       '@stylistic/arrow-parens': [2, 'as-needed', { requireForBlockBody: true }],
       '@stylistic/brace-style': ['error', 'stroustrup'],
+      '@stylistic/indent': ['error', 2],
+      '@stylistic/operator-linebreak': ['error', 'before'],
+      '@stylistic/jsx-closing-tag-location': ['error', 'tag-aligned'],
+      '@stylistic/jsx-one-expression-per-line': ['error', { allow: 'single-child' }],
     },
   },
 ])
