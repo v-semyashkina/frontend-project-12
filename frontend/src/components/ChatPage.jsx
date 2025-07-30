@@ -1,26 +1,26 @@
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { setChannels, setActiveChannel } from '../slices/channelsSlice.js';
-import { setMessages } from '../slices/messagesSlice.js';
-import { getChannels } from '../slices/channelsApi.js';
-import { getMessages } from '../slices/messagesApi.js';
-import Channels from './Channels.jsx';
-import Messages from './Messages.jsx';
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { setChannels, setActiveChannel } from '../slices/channelsSlice.js'
+import { setMessages } from '../slices/messagesSlice.js'
+import { getChannels } from '../slices/channelsApi.js'
+import { getMessages } from '../slices/messagesApi.js'
+import Channels from './Channels.jsx'
+import Messages from './Messages.jsx'
 
 const ChatPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const { data: channels } = getChannels();
-  const { data: messages } = getMessages();
+  const { data: channels } = getChannels()
+  const { data: messages } = getMessages()
   useEffect(() => {
     if (channels) {
-      dispatch(setChannels(channels));
-      dispatch(setActiveChannel(channels[0]));
+      dispatch(setChannels(channels))
+      dispatch(setActiveChannel(channels[0]))
     }
     if (messages) {
-      dispatch(setMessages(messages));
+      dispatch(setMessages(messages))
     }
-  }, [channels]);
+  }, [channels])
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
@@ -29,7 +29,7 @@ const ChatPage = () => {
         <Messages />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ChatPage;
+export default ChatPage

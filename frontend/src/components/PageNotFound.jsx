@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import errorImage from '../assets/404-D_FLHmTM.svg';
+import { Link } from 'react-router-dom'
+import errorImage from '../assets/404-D_FLHmTM.svg'
 
 const PageNotFound = () => (
   <div className="text-center">
@@ -9,6 +9,6 @@ const PageNotFound = () => (
       Но вы можете перейти <Link to="/">на главную страницу</Link>
     </p>
   </div>
-);
+)
 
-export default PageNotFound;
+export default PageNotFound

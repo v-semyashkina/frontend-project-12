@@ -1,9 +1,9 @@
-import leoProfanity from 'leo-profanity';
+import leoProfanity from 'leo-profanity'
 
-leoProfanity.clearList();
+leoProfanity.clearList()
 
-leoProfanity.add(leoProfanity.getDictionary('en'));
-leoProfanity.add(leoProfanity.getDictionary('fr'));
-leoProfanity.add(leoProfanity.getDictionary('ru'));
+leoProfanity.add(leoProfanity.getDictionary('en'))
+leoProfanity.add(leoProfanity.getDictionary('fr'))
+leoProfanity.add(leoProfanity.getDictionary('ru'))
 
-export default leoProfanity;
+export default leoProfanity

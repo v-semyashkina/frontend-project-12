@@ -1,40 +1,40 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { useEffect } from 'react';
-import { socket } from '../socket.js';
-import store from '../slices/index.js';
-import Channel from './Channel.jsx';
-import { openModal } from '../slices/modalsSlice.js';
+import { useSelector, useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import { useEffect } from 'react'
+import { socket } from '../socket.js'
+import store from '../slices/index.js'
+import Channel from './Channel.jsx'
+import { openModal } from '../slices/modalsSlice.js'
 import {
   addChannel,
   setActiveChannel,
   deleteChannel,
   renameChannel,
   channelsSelectors,
-} from '../slices/channelsSlice.js';
+} from '../slices/channelsSlice.js'
 
 const Channels = () => {
-  const dispatch = useDispatch();
-  const { t } = useTranslation();
+  const dispatch = useDispatch()
+  const { t } = useTranslation()
 
-  const channels = useSelector(channelsSelectors.selectAll);
+  const channels = useSelector(channelsSelectors.selectAll)
 
   useEffect(() => {
-    socket.on('newChannel', (payload) => {
-      dispatch(addChannel(payload));
-    });
-    socket.on('removeChannel', (payload) => {
-      dispatch(deleteChannel(payload.id));
-      const state = store.getState();
-      const updatedChannels = channelsSelectors.selectAll(state);
-      dispatch(setActiveChannel(updatedChannels[0]));
-    });
-    socket.on('renameChannel', (payload) => {
-      const { id, name } = payload;
-      dispatch(renameChannel({ id, changes: { name } }));
-      dispatch(setActiveChannel(payload));
-    });
-  }, []);
+    socket.on('newChannel', payload => {
+      dispatch(addChannel(payload))
+    })
+    socket.on('removeChannel', payload => {
+      dispatch(deleteChannel(payload.id))
+      const state = store.getState()
+      const updatedChannels = channelsSelectors.selectAll(state)
+      dispatch(setActiveChannel(updatedChannels[0]))
+    })
+    socket.on('renameChannel', payload => {
+      const { id, name } = payload
+      dispatch(renameChannel({ id, changes: { name } }))
+      dispatch(setActiveChannel(payload))
+    })
+  }, [])
 
   return (
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
@@ -63,12 +63,12 @@ const Channels = () => {
         id="channels-box"
         className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block"
       >
-        {channels.map((channel) => (
+        {channels.map(channel => (
           <Channel key={channel.id} channel={channel} />
         ))}
       </ul>
     </div>
-  );
-};
+  )
+}
 
-export default Channels;
+export default Channels

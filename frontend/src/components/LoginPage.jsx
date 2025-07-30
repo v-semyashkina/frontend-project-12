@@ -1,47 +1,47 @@
-import { Link } from 'react-router-dom';
-import { useFormik } from 'formik';
-import { Button, Form } from 'react-bootstrap';
-import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
-import { logIn } from '../slices/authSlice.js';
-import { useLoginMutation } from '../slices/usersApi.js';
-import avatar from '../assets/avatar-DIE1AEpS.jpg';
+import { Link } from 'react-router-dom'
+import { useFormik } from 'formik'
+import { Button, Form } from 'react-bootstrap'
+import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
+import { logIn } from '../slices/authSlice.js'
+import { useLoginMutation } from '../slices/usersApi.js'
+import avatar from '../assets/avatar-DIE1AEpS.jpg'
 
 const LoginPage = () => {
-  const dispatch = useDispatch();
-  const [authFailed, setAuthFailed] = useState(false);
-  const [loginUser] = useLoginMutation();
-  const inputRef = useRef();
-  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const [authFailed, setAuthFailed] = useState(false)
+  const [loginUser] = useLoginMutation()
+  const inputRef = useRef()
+  const navigate = useNavigate()
   useEffect(() => {
-    inputRef.current.focus();
-  }, []);
-  const { t } = useTranslation();
+    inputRef.current.focus()
+  }, [])
+  const { t } = useTranslation()
 
   const formik = useFormik({
     initialValues: { username: '', password: '' },
-    onSubmit: async (values) => {
-      setAuthFailed(false);
+    onSubmit: async values => {
+      setAuthFailed(false)
       try {
-        const response = await loginUser(values).unwrap();
-        localStorage.setItem('userId', JSON.stringify(response));
-        dispatch(logIn(response.username));
-        navigate('/');
+        const response = await loginUser(values).unwrap()
+        localStorage.setItem('userId', JSON.stringify(response))
+        dispatch(logIn(response.username))
+        navigate('/')
       } catch (error) {
-        formik.setSubmitting(false);
+        formik.setSubmitting(false)
         if (error.status === 401) {
-          setAuthFailed(true);
-          inputRef.current.select();
+          setAuthFailed(true)
+          inputRef.current.select()
         }
         if (error.status === 'FETCH_ERROR') {
-          toast.error(t('networkError'));
+          toast.error(t('networkError'))
         }
       }
     },
-  });
+  })
 
   return (
     <div className="container-fluid h-100">
@@ -106,7 +106,7 @@ const LoginPage = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default LoginPage;
+export default LoginPage

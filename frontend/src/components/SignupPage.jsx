@@ -1,25 +1,25 @@
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import { Button, Form } from 'react-bootstrap';
-import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
-import { logIn } from '../slices/authSlice.js';
-import { useSignupMutation } from '../slices/usersApi.js';
-import avatar from '../assets/avatar_1-D7Cot-zE.jpg';
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import { Button, Form } from 'react-bootstrap'
+import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
+import { logIn } from '../slices/authSlice.js'
+import { useSignupMutation } from '../slices/usersApi.js'
+import avatar from '../assets/avatar_1-D7Cot-zE.jpg'
 
 const SignupPage = () => {
-  const { t } = useTranslation();
-  const [signupFailed, setSignupFailed] = useState(false);
-  const inputRef = useRef();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [signupUser] = useSignupMutation();
+  const { t } = useTranslation()
+  const [signupFailed, setSignupFailed] = useState(false)
+  const inputRef = useRef()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const [signupUser] = useSignupMutation()
   useEffect(() => {
-    inputRef.current.focus();
-  }, []);
+    inputRef.current.focus()
+  }, [])
 
   const formik = useFormik({
     initialValues: { username: '', password: '', confirmPassword: '' },
@@ -37,23 +37,23 @@ const SignupPage = () => {
       ),
     }),
     onSubmit: async ({ username, password }) => {
-      const newUser = { username, password };
+      const newUser = { username, password }
       try {
-        const response = await signupUser(newUser).unwrap();
-        localStorage.setItem('userId', JSON.stringify(response));
-        dispatch(logIn(response.username));
-        navigate('/');
+        const response = await signupUser(newUser).unwrap()
+        localStorage.setItem('userId', JSON.stringify(response))
+        dispatch(logIn(response.username))
+        navigate('/')
       } catch (error) {
-        formik.setSubmitting(false);
+        formik.setSubmitting(false)
         if (error.status === 409) {
-          setSignupFailed(true);
+          setSignupFailed(true)
         }
         if (error.status === 'FETCH_ERROR') {
-          toast.error(t('networkError'));
+          toast.error(t('networkError'))
         }
       }
     },
-  });
+  })
 
   return (
     <div className="container-fluid h-100">
@@ -133,7 +133,7 @@ const SignupPage = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SignupPage;
+export default SignupPage

@@ -1,48 +1,48 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { Provider, ErrorBoundary } from '@rollbar/react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { ToastContainer } from 'react-toastify';
-import ChatPage from './ChatPage.jsx';
-import LoginPage from './LoginPage.jsx';
-import SignupPage from './SignupPage.jsx';
-import Navbar from './Navbar.jsx';
-import PageNotFound from './PageNotFound.jsx';
-import getModal from './modals/index.js';
-import { logIn, setInitialized } from '../slices/authSlice.js';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { Provider, ErrorBoundary } from '@rollbar/react'
+import { useSelector, useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { ToastContainer } from 'react-toastify'
+import ChatPage from './ChatPage.jsx'
+import LoginPage from './LoginPage.jsx'
+import SignupPage from './SignupPage.jsx'
+import Navbar from './Navbar.jsx'
+import PageNotFound from './PageNotFound.jsx'
+import getModal from './modals/index.js'
+import { logIn, setInitialized } from '../slices/authSlice.js'
 
 const rollbarConfig = {
   accessToken: 'b247b6c89b464b52b9415ec96624e8a3',
   environment: 'testenv',
-};
+}
 
 const PrivateRoute = ({ children }) => {
-  const loggedIn = useSelector((state) => state.auth.loggedIn);
-  return loggedIn ? children : <Navigate to="/login" />;
-};
+  const loggedIn = useSelector(state => state.auth.loggedIn)
+  return loggedIn ? children : <Navigate to="/login" />
+}
 
-const renderModal = (modalType) => {
+const renderModal = modalType => {
   if (!modalType) {
-    return null;
+    return null
   }
 
-  const Component = getModal(modalType);
-  return <Component />;
-};
+  const Component = getModal(modalType)
+  return <Component />
+}
 
 const App = () => {
-  const dispatch = useDispatch();
-  const initialized = useSelector((state) => state.auth.initialized);
-  const modalType = useSelector((state) => state.modal.type);
+  const dispatch = useDispatch()
+  const initialized = useSelector(state => state.auth.initialized)
+  const modalType = useSelector(state => state.modal.type)
   useEffect(() => {
-    const userId = JSON.parse(localStorage.getItem('userId'));
+    const userId = JSON.parse(localStorage.getItem('userId'))
 
     if (userId && userId.token) {
-      dispatch(logIn(userId.username));
+      dispatch(logIn(userId.username))
     } else {
-      dispatch(setInitialized());
+      dispatch(setInitialized())
     }
-  }, [dispatch]);
+  }, [dispatch])
 
   return (
     initialized && (
@@ -75,7 +75,7 @@ const App = () => {
         </ErrorBoundary>
       </Provider>
     )
-  );
-};
+  )
+}
 
-export default App;
+export default App

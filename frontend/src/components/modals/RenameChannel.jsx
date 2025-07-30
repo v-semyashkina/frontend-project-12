@@ -1,27 +1,27 @@
-import { useTranslation } from 'react-i18next';
-import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useRef } from 'react';
-import { useFormik } from 'formik';
-import { Form, Modal, Button } from 'react-bootstrap';
-import * as Yup from 'yup';
-import { toast } from 'react-toastify';
-import leoProfanity from '../../utilities/leoProfanity.js';
-import { renameChannel } from '../../slices/channelsApi.js';
-import { channelsSelectors, setActiveChannel } from '../../slices/channelsSlice.js';
-import { closeModal } from '../../slices/modalsSlice.js';
+import { useTranslation } from 'react-i18next'
+import { useSelector, useDispatch } from 'react-redux'
+import { useEffect, useRef } from 'react'
+import { useFormik } from 'formik'
+import { Form, Modal, Button } from 'react-bootstrap'
+import * as Yup from 'yup'
+import { toast } from 'react-toastify'
+import leoProfanity from '../../utilities/leoProfanity.js'
+import { renameChannel } from '../../slices/channelsApi.js'
+import { channelsSelectors, setActiveChannel } from '../../slices/channelsSlice.js'
+import { closeModal } from '../../slices/modalsSlice.js'
 
-const RenameChannel = (props) => {
-  const dispatch = useDispatch();
-  const { t } = useTranslation();
-  const inputRef = useRef();
-  const [sendNewName, { isLoading }] = renameChannel();
+const RenameChannel = props => {
+  const dispatch = useDispatch()
+  const { t } = useTranslation()
+  const inputRef = useRef()
+  const [sendNewName, { isLoading }] = renameChannel()
   useEffect(() => {
-    inputRef.current.focus();
-  }, []);
+    inputRef.current.focus()
+  }, [])
   const existingChannelsNames = useSelector(channelsSelectors.selectAll).map(
-    (channel) => channel.name,
-  );
-  const modalItem = useSelector((state) => state.modal.item);
+    channel => channel.name,
+  )
+  const modalItem = useSelector(state => state.modal.item)
 
   const formik = useFormik({
     initialValues: { name: '' },
@@ -33,21 +33,21 @@ const RenameChannel = (props) => {
         .notOneOf(existingChannelsNames, t('modals.addErrors.repeats')),
     }),
     onSubmit: async ({ name }) => {
-      const id = modalItem.id;
-      const cleanName = leoProfanity.clean(name);
+      const id = modalItem.id
+      const cleanName = leoProfanity.clean(name)
       try {
-        const data = await sendNewName({ id, name: cleanName }).unwrap();
-        dispatch(closeModal());
-        dispatch(setActiveChannel(data));
-        toast.success(t('modals.renameSuccessMessage'));
+        const data = await sendNewName({ id, name: cleanName }).unwrap()
+        dispatch(closeModal())
+        dispatch(setActiveChannel(data))
+        toast.success(t('modals.renameSuccessMessage'))
       } catch (error) {
-        console.error(error);
+        console.error(error)
         if (error.status === 'FETCH_ERROR') {
-          toast.error(t('networkError'));
+          toast.error(t('networkError'))
         }
       }
     },
-  });
+  })
 
   return (
     <div className="modal show" style={{ display: 'block', position: 'initial' }}>
@@ -101,7 +101,7 @@ const RenameChannel = (props) => {
         </Modal.Body>
       </Modal>
     </div>
-  );
-};
+  )
+}
 
-export default RenameChannel;
+export default RenameChannel

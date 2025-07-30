@@ -1,7 +1,7 @@
-import i18next from 'i18next';
-import { initReactI18next } from 'react-i18next';
+import i18next from 'i18next'
+import { initReactI18next } from 'react-i18next'
 // import LanguageDetector from 'i18next-browser-languagedetector';
-import resources from './locales/index.js';
+import resources from './locales/index.js'
 
 i18next
   .use(initReactI18next)
@@ -13,6 +13,6 @@ i18next
       escapeValue: false, // экранирование уже есть в React, поэтому отключаем
     },
     debug: true,
-  });
+  })
 
-export default i18next;
+export default i18next

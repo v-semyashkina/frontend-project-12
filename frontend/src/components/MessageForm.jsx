@@ -1,52 +1,52 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useFormik } from 'formik';
-import { Button, Form } from 'react-bootstrap';
-import { socket } from '../socket.js';
-import { toast } from 'react-toastify';
-import leoProfanity from '../utilities/leoProfanity.js';
-import { addMessage } from '../slices/messagesSlice.js';
-import { sendMessage } from '../slices/messagesApi.js';
-import { selectActiveChannel } from '../slices/channelsSlice.js';
+import { useSelector, useDispatch } from 'react-redux'
+import { useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useFormik } from 'formik'
+import { Button, Form } from 'react-bootstrap'
+import { socket } from '../socket.js'
+import { toast } from 'react-toastify'
+import leoProfanity from '../utilities/leoProfanity.js'
+import { addMessage } from '../slices/messagesSlice.js'
+import { sendMessage } from '../slices/messagesApi.js'
+import { selectActiveChannel } from '../slices/channelsSlice.js'
 
 const MessageForm = ({ messages }) => {
-  const dispatch = useDispatch();
-  const { t } = useTranslation();
-  const inputRef = useRef();
-  const formRef = useRef();
-  const [sendNewMessage] = sendMessage();
+  const dispatch = useDispatch()
+  const { t } = useTranslation()
+  const inputRef = useRef()
+  const formRef = useRef()
+  const [sendNewMessage] = sendMessage()
 
   useEffect(() => {
-    socket.on('newMessage', (payload) => {
-      dispatch(addMessage(payload));
-    });
-  }, []);
+    socket.on('newMessage', payload => {
+      dispatch(addMessage(payload))
+    })
+  }, [])
 
   const formik = useFormik({
     initialValues: { body: '' },
     onSubmit: async ({ body }, { resetForm }) => {
-      const cleanBody = leoProfanity.clean(body);
-      const newMessage = { body: cleanBody, channelId: activeChannelId, username };
+      const cleanBody = leoProfanity.clean(body)
+      const newMessage = { body: cleanBody, channelId: activeChannelId, username }
       try {
-        await sendNewMessage(newMessage).unwrap();
-        resetForm({ body: '' });
+        await sendNewMessage(newMessage).unwrap()
+        resetForm({ body: '' })
       } catch (error) {
-        console.log(error);
+        console.log(error)
         if (error.status === 'FETCH_ERROR') {
-          toast.error(t('networkError'));
+          toast.error(t('networkError'))
         }
       }
     },
-  });
+  })
 
-  const username = useSelector((state) => state.auth.username);
-  const activeChannel = useSelector(selectActiveChannel);
-  const activeChannelId = activeChannel?.id || null;
+  const username = useSelector(state => state.auth.username)
+  const activeChannel = useSelector(selectActiveChannel)
+  const activeChannelId = activeChannel?.id || null
 
   useEffect(() => {
-    inputRef.current?.focus();
-  }, [messages]);
+    inputRef.current?.focus()
+  }, [messages])
 
   return (
     <Form
@@ -88,7 +88,7 @@ const MessageForm = ({ messages }) => {
         </Button>
       </Form.Group>
     </Form>
-  );
-};
+  )
+}
 
-export default MessageForm;
+export default MessageForm

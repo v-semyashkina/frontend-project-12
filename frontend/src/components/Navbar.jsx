@@ -1,18 +1,18 @@
-import { Link } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { logOut } from '../slices/authSlice.js';
+import { Link } from 'react-router-dom'
+import { Button } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import { logOut } from '../slices/authSlice.js'
 
 const Navbar = () => {
-  const loggedIn = useSelector((state) => state.auth.loggedIn);
-  const dispatch = useDispatch();
-  const { t } = useTranslation();
+  const loggedIn = useSelector(state => state.auth.loggedIn)
+  const dispatch = useDispatch()
+  const { t } = useTranslation()
 
   const handleClick = () => {
-    localStorage.removeItem('userId');
-    dispatch(logOut());
-  };
+    localStorage.removeItem('userId')
+    dispatch(logOut())
+  }
 
   return (
     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
@@ -27,7 +27,7 @@ const Navbar = () => {
         ) : null}
       </div>
     </nav>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

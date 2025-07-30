@@ -1,26 +1,26 @@
-import { useTranslation } from 'react-i18next';
-import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useRef } from 'react';
-import { useFormik } from 'formik';
-import { Form, Modal, Button } from 'react-bootstrap';
-import * as Yup from 'yup';
-import { toast } from 'react-toastify';
-import leoProfanity from '../../utilities/leoProfanity.js';
-import { sendChannel } from '../../slices/channelsApi.js';
-import { channelsSelectors, setActiveChannel } from '../../slices/channelsSlice.js';
-import { closeModal } from '../../slices/modalsSlice.js';
+import { useTranslation } from 'react-i18next'
+import { useSelector, useDispatch } from 'react-redux'
+import { useEffect, useRef } from 'react'
+import { useFormik } from 'formik'
+import { Form, Modal, Button } from 'react-bootstrap'
+import * as Yup from 'yup'
+import { toast } from 'react-toastify'
+import leoProfanity from '../../utilities/leoProfanity.js'
+import { sendChannel } from '../../slices/channelsApi.js'
+import { channelsSelectors, setActiveChannel } from '../../slices/channelsSlice.js'
+import { closeModal } from '../../slices/modalsSlice.js'
 
-const AddChannel = (props) => {
-  const dispatch = useDispatch();
-  const { t } = useTranslation();
-  const inputRef = useRef();
-  const [addNewChannel, { isLoading }] = sendChannel();
+const AddChannel = props => {
+  const dispatch = useDispatch()
+  const { t } = useTranslation()
+  const inputRef = useRef()
+  const [addNewChannel, { isLoading }] = sendChannel()
   useEffect(() => {
-    inputRef.current.focus();
-  }, []);
+    inputRef.current.focus()
+  }, [])
   const existingChannelsNames = useSelector(channelsSelectors.selectAll).map(
-    (channel) => channel.name,
-  );
+    channel => channel.name,
+  )
 
   const formik = useFormik({
     initialValues: { name: '' },
@@ -32,21 +32,21 @@ const AddChannel = (props) => {
         .notOneOf(existingChannelsNames, t('modals.addErrors.repeats')),
     }),
     onSubmit: async ({ name }) => {
-      const cleanName = leoProfanity.clean(name);
-      const newChannel = { name: cleanName };
+      const cleanName = leoProfanity.clean(name)
+      const newChannel = { name: cleanName }
       try {
-        const data = await addNewChannel(newChannel).unwrap();
-        dispatch(closeModal());
-        dispatch(setActiveChannel(data));
-        toast.success(t('modals.addSuccessMessage'));
+        const data = await addNewChannel(newChannel).unwrap()
+        dispatch(closeModal())
+        dispatch(setActiveChannel(data))
+        toast.success(t('modals.addSuccessMessage'))
       } catch (error) {
-        console.error(error);
+        console.error(error)
         if (error.status === 'FETCH_ERROR') {
-          toast.error(t('networkError'));
+          toast.error(t('networkError'))
         }
       }
     },
-  });
+  })
 
   return (
     <div className="modal show" style={{ display: 'block', position: 'initial' }}>
@@ -98,7 +98,7 @@ const AddChannel = (props) => {
         </Modal.Body>
       </Modal>
     </div>
-  );
-};
+  )
+}
 
-export default AddChannel;
+export default AddChannel

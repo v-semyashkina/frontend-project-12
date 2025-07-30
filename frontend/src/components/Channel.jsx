@@ -1,23 +1,23 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { Button, Dropdown, ButtonGroup } from 'react-bootstrap';
-import cn from 'classnames';
-import { useTranslation } from 'react-i18next';
-import { setActiveChannel, selectActiveChannel } from '../slices/channelsSlice.js';
-import { openModal } from '../slices/modalsSlice.js';
+import { useSelector, useDispatch } from 'react-redux'
+import { Button, Dropdown, ButtonGroup } from 'react-bootstrap'
+import cn from 'classnames'
+import { useTranslation } from 'react-i18next'
+import { setActiveChannel, selectActiveChannel } from '../slices/channelsSlice.js'
+import { openModal } from '../slices/modalsSlice.js'
 
 const Channel = ({ channel }) => {
-  const { id, name, removable } = channel;
+  const { id, name, removable } = channel
 
-  const dispatch = useDispatch();
-  const { t } = useTranslation();
+  const dispatch = useDispatch()
+  const { t } = useTranslation()
 
-  const activeChannelId = useSelector(selectActiveChannel).id;
+  const activeChannelId = useSelector(selectActiveChannel).id
   const channelUnremovableClass = cn('w-100 rounded-0 text-start btn', {
     'btn-secondary': id === activeChannelId,
-  });
+  })
   const channelRemovableClass = cn('w-100 rounded-0 text-start text-truncate btn', {
     'btn-secondary': id === activeChannelId,
-  });
+  })
 
   const renderUnremovable = () => {
     return (
@@ -29,8 +29,8 @@ const Channel = ({ channel }) => {
         <span className="me-1">#</span>
         {name}
       </button>
-    );
-  };
+    )
+  }
 
   const renderRemovable = () => {
     return (
@@ -64,10 +64,10 @@ const Channel = ({ channel }) => {
           </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
-    );
-  };
+    )
+  }
 
-  return <li className="nav-item w-100">{removable ? renderRemovable() : renderUnremovable()}</li>;
-};
+  return <li className="nav-item w-100">{removable ? renderRemovable() : renderUnremovable()}</li>
+}
 
-export default Channel;
+export default Channel

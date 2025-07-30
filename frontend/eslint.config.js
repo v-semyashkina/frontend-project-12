@@ -1,12 +1,13 @@
-import js from '@eslint/js';
-import globals from 'globals';
-import pluginReact from 'eslint-plugin-react';
-import { defineConfig } from 'eslint/config';
+import js from '@eslint/js'
+import globals from 'globals'
+import pluginReact from 'eslint-plugin-react'
+import stylistic from '@stylistic/eslint-plugin'
+import { defineConfig } from 'eslint/config'
 
 export default defineConfig([
   {
     files: ['**/*.{js,mjs,cjs,jsx}'],
-    plugins: { js },
+    plugins: { js, '@stylistic': stylistic },
     extends: ['js/recommended'],
   },
   {
@@ -25,6 +26,8 @@ export default defineConfig([
       'react/react-in-jsx-scope': 'off',
       'react/jsx-uses-react': 'off',
       'react/prop-types': 'off',
+      '@stylistic/semi': ['error', 'never'],
+      '@stylistic/arrow-parens': ['error', 'as-needed'],
     },
   },
-]);
+])

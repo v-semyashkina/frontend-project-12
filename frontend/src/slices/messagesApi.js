@@ -1,19 +1,19 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import getAuthHeader from '../utilities/getAuthHeader.js';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import getAuthHeader from '../utilities/getAuthHeader.js'
 
 export const messagesApi = createApi({
   reducerPath: 'messagesApi',
   baseQuery: fetchBaseQuery({
     baseUrl: '/api/v1/messages',
-    prepareHeaders: (headers) => {
-      const header = getAuthHeader();
-      headers.set('authorization', header);
-      return headers;
+    prepareHeaders: headers => {
+      const header = getAuthHeader()
+      headers.set('authorization', header)
+      return headers
     },
   }),
-  endpoints: (builder) => ({
+  endpoints: builder => ({
     sendMessage: builder.mutation({
-      query: (message) => ({
+      query: message => ({
         url: '',
         method: 'POST',
         body: message,
@@ -23,18 +23,18 @@ export const messagesApi = createApi({
       query: () => '',
     }),
     removeMessage: builder.mutation({
-      query: (id) => ({
+      query: id => ({
         url: id,
         method: 'DELETE',
       }),
     }),
   }),
-});
+})
 
-const { useGetMessagesQuery, useSendMessageMutation, useRemoveMessageMutation } = messagesApi;
+const { useGetMessagesQuery, useSendMessageMutation, useRemoveMessageMutation } = messagesApi
 
 export {
   useGetMessagesQuery as getMessages,
   useSendMessageMutation as sendMessage,
   useRemoveMessageMutation as removeMessage,
-};
+}
