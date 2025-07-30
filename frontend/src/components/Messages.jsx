@@ -12,7 +12,7 @@ const Messages = () => {
   const { t } = useTranslation()
 
   useEffect(() => {
-    socket.on('newMessage', payload => {
+    socket.on('newMessage', (payload) => {
       dispatch(addMessage(payload))
     })
   }, [])

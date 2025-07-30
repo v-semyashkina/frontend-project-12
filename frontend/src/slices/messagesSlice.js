@@ -28,7 +28,7 @@ const messagesSlice = createSlice({
     addMessage: messagesAdapter.addOne,
     setMessages: messagesAdapter.setMany,
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder.addCase(deleteMessages.fulfilled, messagesAdapter.removeMany)
   },
 })

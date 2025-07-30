@@ -13,10 +13,10 @@ const authSlice = createSlice({
     logIn: (state, action) => {
       (state.loggedIn = true), (state.username = action.payload), (state.initialized = true)
     },
-    logOut: state => {
+    logOut: (state) => {
       (state.loggedIn = false), (state.username = null), (state.initialized = true)
     },
-    setInitialized: state => {
+    setInitialized: (state) => {
       state.initialized = true
     },
   },

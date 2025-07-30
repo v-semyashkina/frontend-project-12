@@ -10,7 +10,7 @@ import { sendChannel } from '../../slices/channelsApi.js'
 import { channelsSelectors, setActiveChannel } from '../../slices/channelsSlice.js'
 import { closeModal } from '../../slices/modalsSlice.js'
 
-const AddChannel = props => {
+const AddChannel = (props) => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const inputRef = useRef()
@@ -39,7 +39,8 @@ const AddChannel = props => {
         dispatch(closeModal())
         dispatch(setActiveChannel(data))
         toast.success(t('modals.addSuccessMessage'))
-      } catch (error) {
+      }
+ catch (error) {
         console.error(error)
         if (error.status === 'FETCH_ERROR') {
           toast.error(t('networkError'))

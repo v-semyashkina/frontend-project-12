@@ -20,16 +20,16 @@ const Channels = () => {
   const channels = useSelector(channelsSelectors.selectAll)
 
   useEffect(() => {
-    socket.on('newChannel', payload => {
+    socket.on('newChannel', (payload) => {
       dispatch(addChannel(payload))
     })
-    socket.on('removeChannel', payload => {
+    socket.on('removeChannel', (payload) => {
       dispatch(deleteChannel(payload.id))
       const state = store.getState()
       const updatedChannels = channelsSelectors.selectAll(state)
       dispatch(setActiveChannel(updatedChannels[0]))
     })
-    socket.on('renameChannel', payload => {
+    socket.on('renameChannel', (payload) => {
       const { id, name } = payload
       dispatch(renameChannel({ id, changes: { name } }))
       dispatch(setActiveChannel(payload))

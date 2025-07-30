@@ -43,7 +43,8 @@ const SignupPage = () => {
         localStorage.setItem('userId', JSON.stringify(response))
         dispatch(logIn(response.username))
         navigate('/')
-      } catch (error) {
+      }
+ catch (error) {
         formik.setSubmitting(false)
         if (error.status === 409) {
           setSignupFailed(true)

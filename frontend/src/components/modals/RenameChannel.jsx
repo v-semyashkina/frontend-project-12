@@ -10,7 +10,7 @@ import { renameChannel } from '../../slices/channelsApi.js'
 import { channelsSelectors, setActiveChannel } from '../../slices/channelsSlice.js'
 import { closeModal } from '../../slices/modalsSlice.js'
 
-const RenameChannel = props => {
+const RenameChannel = (props) => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const inputRef = useRef()
@@ -40,7 +40,8 @@ const RenameChannel = props => {
         dispatch(closeModal())
         dispatch(setActiveChannel(data))
         toast.success(t('modals.renameSuccessMessage'))
-      } catch (error) {
+      }
+ catch (error) {
         console.error(error)
         if (error.status === 'FETCH_ERROR') {
           toast.error(t('networkError'))

@@ -23,14 +23,15 @@ const LoginPage = () => {
 
   const formik = useFormik({
     initialValues: { username: '', password: '' },
-    onSubmit: async values => {
+    onSubmit: async (values) => {
       setAuthFailed(false)
       try {
         const response = await loginUser(values).unwrap()
         localStorage.setItem('userId', JSON.stringify(response))
         dispatch(logIn(response.username))
         navigate('/')
-      } catch (error) {
+      }
+ catch (error) {
         formik.setSubmitting(false)
         if (error.status === 401) {
           setAuthFailed(true)

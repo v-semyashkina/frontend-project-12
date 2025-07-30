@@ -5,7 +5,7 @@ export const channelsApi = createApi({
   reducerPath: 'channelsApi',
   baseQuery: fetchBaseQuery({
     baseUrl: '/api/v1/channels',
-    prepareHeaders: headers => {
+    prepareHeaders: (headers) => {
       const header = getAuthHeader()
       headers.set('authorization', header)
       return headers

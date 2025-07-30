@@ -5,7 +5,7 @@ export const messagesApi = createApi({
   reducerPath: 'messagesApi',
   baseQuery: fetchBaseQuery({
     baseUrl: '/api/v1/messages',
-    prepareHeaders: headers => {
+    prepareHeaders: (headers) => {
       const header = getAuthHeader()
       headers.set('authorization', header)
       return headers

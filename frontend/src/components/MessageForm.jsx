@@ -18,7 +18,7 @@ const MessageForm = ({ messages }) => {
   const [sendNewMessage] = sendMessage()
 
   useEffect(() => {
-    socket.on('newMessage', payload => {
+    socket.on('newMessage', (payload) => {
       dispatch(addMessage(payload))
     })
   }, [])
@@ -31,7 +31,8 @@ const MessageForm = ({ messages }) => {
       try {
         await sendNewMessage(newMessage).unwrap()
         resetForm({ body: '' })
-      } catch (error) {
+      }
+ catch (error) {
         console.log(error)
         if (error.status === 'FETCH_ERROR') {
           toast.error(t('networkError'))

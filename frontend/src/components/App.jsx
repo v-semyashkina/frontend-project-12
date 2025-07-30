@@ -21,7 +21,7 @@ const PrivateRoute = ({ children }) => {
   return loggedIn ? children : <Navigate to="/login" />
 }
 
-const renderModal = modalType => {
+const renderModal = (modalType) => {
   if (!modalType) {
     return null
   }
@@ -39,7 +39,8 @@ const App = () => {
 
     if (userId && userId.token) {
       dispatch(logIn(userId.username))
-    } else {
+    }
+ else {
       dispatch(setInitialized())
     }
   }, [dispatch])

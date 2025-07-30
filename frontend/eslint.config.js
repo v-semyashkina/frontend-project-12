@@ -27,7 +27,8 @@ export default defineConfig([
       'react/jsx-uses-react': 'off',
       'react/prop-types': 'off',
       '@stylistic/semi': ['error', 'never'],
-      '@stylistic/arrow-parens': ['error', 'as-needed'],
+      '@stylistic/arrow-parens': [2, 'as-needed', { requireForBlockBody: true }],
+      '@stylistic/brace-style': ['error', 'stroustrup'],
     },
   },
 ])

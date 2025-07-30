@@ -6,7 +6,7 @@ import { removeChannel } from '../../slices/channelsApi.js'
 import { deleteMessages } from '../../slices/messagesSlice.js'
 import { closeModal } from '../../slices/modalsSlice.js'
 
-const DeleteChannel = props => {
+const DeleteChannel = (props) => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const [deleteChannel, { isLoading }] = removeChannel()
@@ -20,7 +20,8 @@ const DeleteChannel = props => {
       dispatch(deleteMessages(id))
       dispatch(closeModal())
       toast.success(t('modals.deleteSuccessMessage'))
-    } catch (error) {
+    }
+ catch (error) {
       console.log(error)
       if (error.status === 'FETCH_ERROR') {
         toast.error(t('networkError'))
