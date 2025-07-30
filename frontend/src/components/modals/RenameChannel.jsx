@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 import leoProfanity from '../../utilities/leoProfanity.js';
 import { renameChannel } from '../../slices/channelsApi.js';
-import { channelsSelectors } from '../../slices/channelsSlice.js';
+import { channelsSelectors, setActiveChannel } from '../../slices/channelsSlice.js';
 import { closeModal } from '../../slices/modalsSlice.js';
 
 const RenameChannel = (props) => {
@@ -36,8 +36,9 @@ const RenameChannel = (props) => {
       const id = modalItem.id;
       const cleanName = leoProfanity.clean(name);
       try {
-        await sendNewName({ id, name: cleanName }).unwrap();
+        const data = await sendNewName({ id, name: cleanName }).unwrap();
         dispatch(closeModal());
+        dispatch(setActiveChannel(data));
         toast.success(t('modals.renameSuccessMessage'));
       } catch (error) {
         console.error(error);

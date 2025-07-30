@@ -22,7 +22,6 @@ const Channels = () => {
   useEffect(() => {
     socket.on('newChannel', (payload) => {
       dispatch(addChannel(payload));
-      dispatch(setActiveChannel(payload));
     });
     socket.on('removeChannel', (payload) => {
       dispatch(deleteChannel(payload.id));

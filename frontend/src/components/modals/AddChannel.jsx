@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 import leoProfanity from '../../utilities/leoProfanity.js';
 import { sendChannel } from '../../slices/channelsApi.js';
-import { channelsSelectors } from '../../slices/channelsSlice.js';
+import { channelsSelectors, setActiveChannel } from '../../slices/channelsSlice.js';
 import { closeModal } from '../../slices/modalsSlice.js';
 
 const AddChannel = (props) => {
@@ -35,8 +35,9 @@ const AddChannel = (props) => {
       const cleanName = leoProfanity.clean(name);
       const newChannel = { name: cleanName };
       try {
-        await addNewChannel(newChannel).unwrap();
+        const data = await addNewChannel(newChannel).unwrap();
         dispatch(closeModal());
+        dispatch(setActiveChannel(data));
         toast.success(t('modals.addSuccessMessage'));
       } catch (error) {
         console.error(error);
