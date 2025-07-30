@@ -33,6 +33,9 @@ export default defineConfig([
       '@stylistic/operator-linebreak': ['error', 'before'],
       '@stylistic/jsx-closing-tag-location': ['error', 'tag-aligned'],
       '@stylistic/jsx-one-expression-per-line': ['error', { allow: 'single-child' }],
+      '@stylistic/jsx-wrap-multilines': ['error', { prop: 'parens' }],
+      '@stylistic/no-trailing-spaces': 'error',
+      '@stylistic/multiline-ternary': ['error', 'always'],
     },
   },
 ])

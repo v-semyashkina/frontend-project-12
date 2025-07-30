@@ -45,7 +45,9 @@ const Channel = ({ channel }) => {
         </Button>
 
         <Dropdown.Toggle
-          variant={id === activeChannelId ? 'secondary' : 'none'}
+          variant={id === activeChannelId
+            ? 'secondary'
+            : 'none'}
           split
           id="dropdown-split-basic"
         >
@@ -67,7 +69,11 @@ const Channel = ({ channel }) => {
     )
   }
 
-  return <li className="nav-item w-100">{removable ? renderRemovable() : renderUnremovable()}</li>
+  return (<li className="nav-item w-100">
+    {removable
+      ? renderRemovable()
+      : renderUnremovable()}
+          </li>)
 }
 
 export default Channel

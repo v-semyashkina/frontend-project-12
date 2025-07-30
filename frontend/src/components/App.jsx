@@ -18,7 +18,9 @@ const rollbarConfig = {
 
 const PrivateRoute = ({ children }) => {
   const loggedIn = useSelector(state => state.auth.loggedIn)
-  return loggedIn ? children : <Navigate to="/login" />
+  return loggedIn
+    ? children
+    : <Navigate to="/login" />
 }
 
 const renderModal = (modalType) => {
@@ -58,9 +60,9 @@ const App = () => {
                     <Route
                       path="/"
                       element={
-                        <PrivateRoute>
+                        (<PrivateRoute>
                           <ChatPage />
-                        </PrivateRoute>
+                        </PrivateRoute>)
                       }
                     />
                     <Route path="login" element={<LoginPage />} />

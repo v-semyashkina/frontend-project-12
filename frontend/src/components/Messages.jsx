@@ -37,7 +37,7 @@ const Messages = () => {
             </b>
           </p>
           <span className="text-muted">
-            {messagesCount} 
+            {messagesCount}
             {' '}
             {t('messages', { count: messagesCount })}
           </span>

@@ -20,11 +20,13 @@ const Navbar = () => {
         <Link className="navbar-brand" to="/">
           {t('title')}
         </Link>
-        {loggedIn ? (
-          <Button variant="primary" onClick={() => handleClick()}>
-            {t('logoutBtn')}
-          </Button>
-        ) : null}
+        {loggedIn
+          ? (
+            <Button variant="primary" onClick={() => handleClick()}>
+              {t('logoutBtn')}
+            </Button>
+          )
+          : null}
       </div>
     </nav>
   )
