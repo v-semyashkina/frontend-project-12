@@ -3,10 +3,10 @@ import { Provider, ErrorBoundary } from '@rollbar/react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { ToastContainer } from 'react-toastify'
+import Navbar from './Navbar.jsx'
 import ChatPage from './ChatPage.jsx'
 import LoginPage from './LoginPage.jsx'
 import SignupPage from './SignupPage.jsx'
-import Navbar from './Navbar.jsx'
 import PageNotFound from './PageNotFound.jsx'
 import getModal from './modals/index.js'
 import { logIn, setInitialized } from '../slices/authSlice.js'
@@ -18,9 +18,7 @@ const rollbarConfig = {
 
 const PrivateRoute = ({ children }) => {
   const loggedIn = useSelector(state => state.auth.loggedIn)
-  return loggedIn
-    ? children
-    : <Navigate to="/login" />
+  return loggedIn ? children : <Navigate to="/login" />
 }
 
 const renderModal = (modalType) => {
@@ -59,11 +57,11 @@ const App = () => {
                   <Routes>
                     <Route
                       path="/"
-                      element={
-                        (<PrivateRoute>
+                      element={(
+                        <PrivateRoute>
                           <ChatPage />
-                        </PrivateRoute>)
-                      }
+                        </PrivateRoute>
+                      )}
                     />
                     <Route path="login" element={<LoginPage />} />
                     <Route path="signup" element={<SignupPage />} />

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import { Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
+import { Button } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import { logOut } from '../slices/authSlice.js'
 
@@ -22,10 +22,10 @@ const Navbar = () => {
         </Link>
         {loggedIn
           ? (
-            <Button variant="primary" onClick={() => handleClick()}>
-              {t('logoutBtn')}
-            </Button>
-          )
+              <Button variant="primary" onClick={() => handleClick()}>
+                {t('logoutBtn')}
+              </Button>
+            )
           : null}
       </div>
     </nav>

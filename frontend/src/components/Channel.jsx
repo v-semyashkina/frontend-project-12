@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { Button, Dropdown, ButtonGroup } from 'react-bootstrap'
-import cn from 'classnames'
 import { useTranslation } from 'react-i18next'
+import cn from 'classnames'
 import { setActiveChannel, selectActiveChannel } from '../slices/channelsSlice.js'
 import { openModal } from '../slices/modalsSlice.js'
 
@@ -45,9 +45,7 @@ const Channel = ({ channel }) => {
         </Button>
 
         <Dropdown.Toggle
-          variant={id === activeChannelId
-            ? 'secondary'
-            : 'none'}
+          variant={id === activeChannelId ? 'secondary' : 'none'}
           split
           id="dropdown-split-basic"
         >
@@ -69,11 +67,7 @@ const Channel = ({ channel }) => {
     )
   }
 
-  return (<li className="nav-item w-100">
-    {removable
-      ? renderRemovable()
-      : renderUnremovable()}
-          </li>)
+  return <li className="nav-item w-100">{removable ? renderRemovable() : renderUnremovable()}</li>
 }
 
 export default Channel
