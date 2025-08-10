@@ -9,6 +9,7 @@ import leoProfanity from '../utilities/leoProfanity.js'
 import { addMessage } from '../slices/messagesSlice.js'
 import { sendMessage } from '../slices/messagesApi.js'
 import { selectActiveChannel } from '../slices/channelsSlice.js'
+import { logOut } from '../slices/authSlice.js'
 
 const MessageForm = ({ messages }) => {
   const dispatch = useDispatch()
@@ -36,6 +37,10 @@ const MessageForm = ({ messages }) => {
         console.log(error)
         if (error.status === 'FETCH_ERROR') {
           toast.error(t('networkError'))
+        }
+        if (error.status === 401) {
+          localStorage.removeItem('userId')
+          dispatch(logOut())
         }
       }
     },
@@ -65,6 +70,7 @@ const MessageForm = ({ messages }) => {
           placeholder={t('messagePlaceholder')}
           className="border-0 p-0 ps-2 form-control"
           ref={inputRef}
+          autoComplete="off"
         >
         </Form.Control>
         <Button

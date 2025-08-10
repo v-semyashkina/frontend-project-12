@@ -10,6 +10,11 @@
   "messagePlaceholder": "Введите сообщение...",
   "messageBtnText": "Отправить",
   "modals": {
+    "titles": {
+      "addingChannel": "Добавить канал",
+      "deletingChannel": "Удалить канал",
+      "renamingChannel": "Переименовать канал"
+    },
     "addTitle": "Добавить канал",
     "addLabel": "Имя канала",
     "addBtns": {

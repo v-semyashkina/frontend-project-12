@@ -8,7 +8,7 @@ import ChatPage from './ChatPage.jsx'
 import LoginPage from './LoginPage.jsx'
 import SignupPage from './SignupPage.jsx'
 import PageNotFound from './PageNotFound.jsx'
-import getModal from './modals/index.js'
+import ModalWindow from './modals/ModalWindow.jsx'
 import { logIn, setInitialized } from '../slices/authSlice.js'
 
 const rollbarConfig = {
@@ -26,8 +26,7 @@ const renderModal = (modalType) => {
     return null
   }
 
-  const Component = getModal(modalType)
-  return <Component />
+  return <ModalWindow />
 }
 
 const App = () => {

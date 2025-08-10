@@ -5,13 +5,14 @@ import { toast } from 'react-toastify'
 import { removeChannel } from '../../slices/channelsApi.js'
 import { deleteMessages } from '../../slices/messagesSlice.js'
 import { closeModal } from '../../slices/modalsSlice.js'
+import ModalForm from './ModalForm.jsx'
 
-const DeleteChannel = (props) => {
+const ModalWindow = (props) => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const [deleteChannel, { isLoading }] = removeChannel()
-
   const modalItem = useSelector(state => state.modal.item)
+  const modalType = useSelector(state => state.modal.type)
 
   const handleDelete = async () => {
     const id = modalItem.id
@@ -39,33 +40,41 @@ const DeleteChannel = (props) => {
         onHide={() => dispatch(closeModal())}
       >
         <Modal.Header closeButton>
-          <Modal.Title>{t('modals.deleteTitle')}</Modal.Title>
+          <Modal.Title>{t(`modals.titles.${modalType}`)}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p className="lead">{t('modals.deleteQuestion')}</p>
-          <div className="d-flex justify-content-end">
-            <Button
-              type="button"
-              className="me-2"
-              onClick={() => dispatch(closeModal())}
-              variant="secondary"
-              disabled={isLoading}
-            >
-              {t('modals.deleteBtns.cancel')}
-            </Button>
-            <Button
-              type="button"
-              variant="danger"
-              onClick={() => handleDelete()}
-              disabled={isLoading}
-            >
-              {t('modals.deleteBtns.delete')}
-            </Button>
-          </div>
+          {modalType === 'deletingChannel'
+            ? (
+                <>
+                  <p className="lead">{t('modals.deleteQuestion')}</p>
+                  <div className="d-flex justify-content-end">
+                    <Button
+                      type="button"
+                      className="me-2"
+                      onClick={() => dispatch(closeModal())}
+                      variant="secondary"
+                      disabled={isLoading}
+                    >
+                      {t('modals.deleteBtns.cancel')}
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="danger"
+                      onClick={() => handleDelete()}
+                      disabled={isLoading}
+                    >
+                      {t('modals.deleteBtns.delete')}
+                    </Button>
+                  </div>
+                </>
+              )
+            : (
+                <ModalForm />
+              )}
         </Modal.Body>
       </Modal>
     </div>
   )
 }
 
-export default DeleteChannel
+export default ModalWindow

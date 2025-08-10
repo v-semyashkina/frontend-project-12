@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { socket } from '../socket.js'
 import Message from './Message.jsx'
@@ -26,6 +26,11 @@ const Messages = () => {
   )
   const messagesCount = messages.length
 
+  const bottomRef = useRef(null)
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
+
   return (
     <div className="col p-0 h-100">
       <div className="d-flex flex-column h-100">
@@ -43,8 +48,13 @@ const Messages = () => {
           </span>
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5">
-          {messages.map(message => (
-            <Message key={message.id} message={message} />
+          {messages.map((message, index) => (
+            <Message
+              key={message.id}
+              message={message}
+              isLast={index === messages.length - 1}
+              bottomRef={bottomRef}
+            />
           ))}
         </div>
         <div className="mt-auto px-5 py-3">
