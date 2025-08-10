@@ -20,7 +20,7 @@ const ModalWindow = (props) => {
       await deleteChannel(id).unwrap()
       dispatch(deleteMessages(id))
       dispatch(closeModal())
-      toast.success(t('modals.deleteSuccessMessage'))
+      toast.success(t(`modals.successMessage.${modalType}`))
     }
     catch (error) {
       console.log(error)

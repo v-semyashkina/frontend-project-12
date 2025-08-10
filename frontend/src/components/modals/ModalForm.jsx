@@ -17,16 +17,17 @@ const ModalForm = () => {
   const { t } = useTranslation()
   const inputRef = useRef()
   const modalType = useSelector(state => state.modal.type)
-  const [addNewChannel] = sendChannel()
-  const [sendNewName] = renameChannel()
-  const [{ isLoading }] = modalType === 'addingChannel' ? sendChannel() : renameChannel()
+  const [addNewChannel, { isLoading: isAdding }] = sendChannel()
+  const [sendNewName, { isLoading: isRenaming }] = renameChannel()
+  const isLoading = modalType === 'addingChannel' ? isAdding : isRenaming
+  const modalItem = useSelector(state => state.modal.item)
+
   useEffect(() => {
     inputRef.current.focus()
   }, [])
   const existingChannelsNames = useSelector(channelsSelectors.selectAll).map(
     channel => channel.name,
   )
-  const modalItem = useSelector(state => state.modal.item)
 
   const formik = useFormik({
     initialValues: { name: '' },
@@ -47,7 +48,7 @@ const ModalForm = () => {
             : await sendNewName({ id, name: cleanName }).unwrap()
         dispatch(closeModal())
         dispatch(setActiveChannel(data))
-        toast.success(t('modals.addSuccessMessage'))
+        toast.success(t(`modals.successMessage.${modalType}`))
       }
       catch (error) {
         console.error(error)

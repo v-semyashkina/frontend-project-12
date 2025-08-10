@@ -15,7 +15,11 @@
       "deletingChannel": "Удалить канал",
       "renamingChannel": "Переименовать канал"
     },
-    "addTitle": "Добавить канал",
+    "successMessage": {
+      "addingChannel": "Канал создан",
+      "deletingChannel": "Канал удалён",
+      "renamingChannel": "Канал переименован"
+    },
     "addLabel": "Имя канала",
     "addBtns": {
       "cancel": "Отменить",
@@ -27,20 +31,15 @@
       "max": "От 3 до 20 символов",
       "repeats": "Должно быть уникальным"
     },
-    "addSuccessMessage": "Канал создан",
-    "deleteTitle": "Удалить канал",
     "deleteQuestion": "Уверены?",
     "deleteBtns": {
       "cancel": "Отменить",
       "delete": "Удалить"
     },
-    "deleteSuccessMessage": "Канал удалён",
-    "renameTitle": "Переименовать канал",
     "renameBtns": {
       "cancel": "Отменить",
       "submit": "Отправить"
-    },
-    "renameSuccessMessage": "Канал переименован"
+    }
   },
   "loginPage": {
     "title": "Войти",
