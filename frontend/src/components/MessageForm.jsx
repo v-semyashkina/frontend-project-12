@@ -27,6 +27,9 @@ const MessageForm = ({ messages }) => {
   const formik = useFormik({
     initialValues: { body: '' },
     onSubmit: async ({ body }, { resetForm }) => {
+      if (body.length < 1) {
+        return
+      }
       const cleanBody = leoProfanity.clean(body)
       const newMessage = { body: cleanBody, channelId: activeChannelId, username }
       try {
